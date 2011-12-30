@@ -1,0 +1,3 @@
+Usage:
+java -jar mdnstest.jar send <host> - send mDNS lookup queries for host every second
+java -jar mdnstest.jar receive - receive mDNS lookup queries
