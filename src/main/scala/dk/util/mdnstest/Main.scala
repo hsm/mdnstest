@@ -9,18 +9,8 @@ object Main {
 
   def main(args: Array[String]) {
     args match {
-      case Array("send", host) => {
-        val packet = MDNSLookupQueryFactory.create(host)
-        while(true) {
-          send(packet)
-          Thread.sleep(1000)
-        }
-      }
-      case Array("receive") => {
-        while(true) {
-          receive()
-        }
-      }
+      case Array("send", host) => send(host)
+      case Array("receive") => receive()
       case _ => usage()
     }
   }
@@ -31,12 +21,17 @@ object Main {
     println("java -jar mdnstest.jar receive - receive mDNS lookup queries")
   }
 
-  def send(packet: Array[Byte]) {
+  def send(host: String) {
+    val packet = MDNSLookupQueryFactory.create(host)
+
     val address = InetAddress.getByName(ip)
     val socket = MulticastSocketFactory.create(address, port)
     val sender = new MDNSSender(socket, address, port)
 
-    sender.send(packet)
+    while (true) {
+      sender.send(packet)
+      Thread.sleep(1000)
+    }
   }
 
   def receive() {
@@ -44,7 +39,9 @@ object Main {
     val socket = MulticastSocketFactory.create(address, port)
     val receiver = new MDNSReceiver(socket, 100, MDNSLookupMatcherFactory.create)
 
-    receiver.receive()
+    while (true) {
+      receiver.receive()
+    }
   }
 
 }
