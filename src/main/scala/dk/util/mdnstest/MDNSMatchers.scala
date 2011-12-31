@@ -17,13 +17,13 @@ object MDNSMatchers {
   }
 
   val found: PartialFunction[Array[Int], Unit] = {
-    case a@Array(
+    case Array(
     0x00, 0x00,
     0x84, 0x00,
     0x00, 0x00,
     0x00, 0x01,
     0x00, 0x00,
-    0x00, 0x00,
+    0x00, _,
     length, rest@_*) => {
       val (nameSlice, tailSlice) = rest.splitAt(length)
       
@@ -35,7 +35,8 @@ object MDNSMatchers {
         0x80, 0x01,
         _, _, _, _,
         0x00, 0x04,
-        i@_*) => "ip: " + i.mkString(".")
+        a, b, c, d,
+        _*) => "ip: " + List(a, b, c, d).mkString(".")
         case _ => {
           "unexpected tail format"
         }
