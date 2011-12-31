@@ -37,7 +37,7 @@ object Main {
   def receive() {
     val address = InetAddress.getByName(ip)
     val socket = MulticastSocketFactory.create(address, port)
-    val receiver = new MDNSReceiver(socket, 100, MDNSLookupMatcherFactory.create)
+    val receiver = new MDNSReceiver(socket, 0xffff, MDNSLookupMatcherFactory.create)
 
     while (true) {
       receiver.receive()
