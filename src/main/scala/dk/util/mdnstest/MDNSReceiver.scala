@@ -5,7 +5,7 @@ import java.net.{DatagramPacket, MulticastSocket}
 
 class MDNSReceiver(socket: MulticastSocket,
                    bufferSize: Int,
-                   matcher: PartialFunction[Array[Byte], Unit]) {
+                   matcher: PartialFunction[Array[Int], Unit]) {
 
   def receive() {
     val buffer = Array.ofDim[Byte](bufferSize)
@@ -13,7 +13,7 @@ class MDNSReceiver(socket: MulticastSocket,
 
     socket.receive(receivedPacket)
 
-    val data = receivedPacket.getData
+    val data = receivedPacket.getData map {_.toInt & 0xff}
 
     if (matcher.isDefinedAt(data)) matcher(data) else println("Got unmatched packet")
   }

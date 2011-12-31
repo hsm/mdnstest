@@ -2,10 +2,10 @@ package dk.util.mdnstest
 
 object MDNSLookupQueryFactory {
 
-  def create(name: String) = {
+  def create(name: String): Array[Int] = {
     println("Creating packet for name lookup on '" + name + "'")
     
-    val before = Array[Byte] (
+    val before = Array(
       0x00, 0x00,
       0x00, 0x00,
       0x00, 0x01,
@@ -13,13 +13,15 @@ object MDNSLookupQueryFactory {
       0x00, 0x00,
       0x00, 0x00
     )
-    val after = Array[Byte] (
+    val after = Array(
       0x05, 'l', 'o', 'c', 'a', 'l', 0x00,
       0x00, 0x01,
       0x00, 0x01
     )
-
-    (before :+ name.size.asInstanceOf[Byte]) ++ name.getBytes ++ after
+    
+    val intName = name.getBytes map {_.toInt}
+    
+    (before :+ name.size) ++ intName ++ after
   }
 
 }
