@@ -17,11 +17,7 @@ object PacketPrettyPrinter {
       i <- 0.until(hexGroupsOf16.size * 16, 16)
     } yield (new Formatter()).format("%05x", int2Integer(i)).toString).toList
     
-    for (line <- (counts zip hexGroupsOf16) zip charGroupsOf16) {
-      val cnt = line._1._1
-      val hex = line._1._2
-      val chr = line._2
-
+    for (((cnt, hex), chr) <- (counts zip hexGroupsOf16) zip charGroupsOf16) {
       println(((cnt + "   " + hex).padTo(60, ' ')) + chr)
     }
   }
