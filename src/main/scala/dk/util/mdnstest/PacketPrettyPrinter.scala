@@ -14,7 +14,7 @@ object PacketPrettyPrinter {
     val charGroupsOf16 = (chars.grouped(16) map {_.mkString}).toList
 
     val counts = (for {
-      i <- 0.until(hexGroupsOf16.size * 16, 16)
+      i <- 0 until hexGroupsOf16.size * 16 by 16
     } yield (new Formatter()).format("%05x", int2Integer(i)).toString).toList
     
     for (((cnt, hex), chr) <- (counts zip hexGroupsOf16) zip charGroupsOf16) {
