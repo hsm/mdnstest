@@ -14,12 +14,7 @@ class MDNSReceiver(socket: MulticastSocket,
 
     val data = receivedPacket.getData.slice(0, receivedPacket.getLength) map {_.toInt & 0xff}
 
-    if (matcher.isDefinedAt(data)) {
-      matcher(data)
-    } else {
-      println("Got unmatched packet: ")
-      PacketPrettyPrinter.print(data)
-    }
+    matcher(data)
   }
 
 }

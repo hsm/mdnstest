@@ -42,7 +42,7 @@ object MDNSMatchers {
         }
       }
 
-      println("Got mDNS name response for: '" + (name map {_.asInstanceOf[Char]}).mkString + "'" + " with " + ip)
+      println("Got mDNS name response for: '" + name + "'" + " with " + ip)
     }
   }
 
@@ -52,4 +52,5 @@ object MDNSMatchers {
       PacketPrettyPrinter.print(packet)
     }
   }
+
 }
